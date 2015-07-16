@@ -6,9 +6,11 @@ class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write('Hello, World!</br></br>\n')
-        self.response.write('Example\n ')
+        self.response.write('Convert\n ')
         self.response.write("<html><body></br><a href='http://natsuko-step2015.appspot.com/convert?message=helloworld'>http://natsuko-step2015.appspot.com/convert?message=helloworld</a></body></html>")
-        self.response.write("</br></br>Convert おまけ"+"<html><body></br><a href='http://natsuko-step2015.appspot.com/convert1?message=helloworld'>http://natsuko-step2015.appspot.com/convert1?message=helloworld</a></body></html>")
+        self.response.write("</br></br>Convert おまけ<html><body></br><a href='http://natsuko-step2015.appspot.com/convert1?message=helloworld'>http://natsuko-step2015.appspot.com/convert1?message=helloworld</a></body></html>")
+        self.response.write("</br></br>Show<html><body></br><a href='http://natsuko-step2015.appspot.com/show?message=helloworld'>http://natsuko-step2015.appspot.com/show?message=helloworld</a></body></html>")
+        self.response.write("</br></br>Getword<html><body></br><a href='http://natsuko-step2015.appspot.com/getword?message=helloworld'>http://natsuko-step2015.appspot.com/getword?message=helloworld</a></body></html>")
 
 class Show(webapp2.RequestHandler):
 	def get(self):
@@ -51,7 +53,18 @@ class Demo(webapp2.RequestHandler):
 					num=num-36
 					result+=alphabet[num]
 		
-		self.response.write('***'+result+'***')
+		self.response.write('1. ***'+result+'***')
+
+		h=binascii.hexlify(a)
+		d={'0':'がおー','1':'ぐさっ','2':'ぱりっ','3':'びゅうびゅう','4':'ぱちぱち','5':'にゃー','6':'ぶうぶう','7':'むしゃー','8':'どしん','9':'すとん','a':'びりっ','b':'くるくる','c':'ぐうぐう','d':'すらっ','e':'ぱったん','f':'にこっ'}
+		result2=""
+		for i in range(len(b)):
+			if h[i] in d.keys():
+				result2+=d[h[i]]
+			else:
+				result2+=d[str(random.randint(0,9))]
+			
+		self.response.write('</br>2. '+result2)
 
 class Demo1(webapp2.RequestHandler):
 	def get(self):
@@ -85,19 +98,20 @@ class Getword(webapp2.RequestHandler):
 		
 class Madlib(webapp2.RequestHandler):
 	def get(self):
-		#3message=self.request.get('')
+		#message=self.request.get('')
 		url="http://step15-krispop.appspot.com/peers"
 		l=urllib.urlopen(url)
 		line=l.readlines()
 		for i in line:
-			self.response.write(i)
-			noun=i.strip()+'/getword?pos=noun'
-			verb=i.strip()+'/getword?pos=verb'
-			adverb=i.strip()+'/getword?pos=adverb'
-			adjective=i.strip()+'/getword?pos=adjective'
-			exclamation=i.strip()+'/getword?pos=exclamation'
+			self.response.write(i+'</br>')
+			noun=i.strip()+'/getword?noun'
+			verb=i.strip()+'/getword?verb'
+			adverb=i.strip()+'/getword?adverb'
+			adjective=i.strip()+'/getword?adjective'
+			exclamation=i.strip()+'/getword?exclamation'
 			#self.response.write(access+)#'</br>')
 			re_noun=urllib.urlopen(noun)
+			
 			re_verb=urllib.urlopen(verb)
 			re_adverb=urllib.urlopen(adverb)
 			re_adjective=urllib.urlopen(adjective)
@@ -116,12 +130,9 @@ class Madlib(webapp2.RequestHandler):
 			#	"I climbed aboard as the shark narrowly missed my iPhone. Who knew there are sharks in Lake Washington?!</br></br>")
 			self.response.write("%s! Maybe I should ask her to %s. </br>" %(result5, result1)+\
 				"Afterwards we can go to the top of the %s mountain and look at the wonderful sky as we %s in the car. " %(result4, result2)+\
-				"Maybe some day we can vacation and spend all week %s. " %result3)
+				"Maybe some day we can vacation and spend all week %s. </br>" %result3)
+			
 		self.response.write(0)
-
-
-
-
 
 
 app = webapp2.WSGIApplication([

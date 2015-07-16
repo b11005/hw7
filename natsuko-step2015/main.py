@@ -38,7 +38,7 @@ class Demo(webapp2.RequestHandler):
 	def get(self):
 		a=self.request.get("message")
 		a=a.lower()
-		self.response.write(a+'</br>')
+		#self.response.write(a+'</br>')
 		b=a[::-1]
 		alphabet=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0',' ']
 		result=""
@@ -83,21 +83,19 @@ class Getword(webapp2.RequestHandler):
 		else:
 			self.response.write(t[random.randint(0,9)])
 		
-		
-
 class Madlib(webapp2.RequestHandler):
 	def get(self):
-		#message=self.request.get('message')
+		#3message=self.request.get('')
 		url="http://step15-krispop.appspot.com/peers"
 		l=urllib.urlopen(url)
 		line=l.readlines()
 		for i in line:
-			self.request.write('url'+i)
-			noun=i.strip()+'/getword?message=noun'
-			verb=i.strip()+'/getword?message=verb'
-			adverb=i.strip()+'/getword?message=adverb'
-			adjective=i.strip()+'/getword?message=adjective'
-			exclamation=i.strip()+'/getword?message=exclamation'
+			self.response.write(i)
+			noun=i.strip()+'/getword?pos=noun'
+			verb=i.strip()+'/getword?pos=verb'
+			adverb=i.strip()+'/getword?pos=adverb'
+			adjective=i.strip()+'/getword?pos=adjective'
+			exclamation=i.strip()+'/getword?pos=exclamation'
 			#self.response.write(access+)#'</br>')
 			re_noun=urllib.urlopen(noun)
 			re_verb=urllib.urlopen(verb)
@@ -109,14 +107,19 @@ class Madlib(webapp2.RequestHandler):
 			result3=re_adverb.read() 
 			result4=re_adjective.read()
 			result5=re_exclamation.read()
-			self.response.write("It was a rare 14° day in Seattle, so I took a dip in Lake Washington."+\
-				"Apples lapped against the shore, and the sun beat down on my nose. "+\
-				"As I Boo-paddled further into the lake, something brushed against my Christmas."+\
-				"'Oh my goodness!' I cried. In a flash, a shark's fin popped up a few feet away."+\
-				"I chased the shark on the nose and swam toward the shore. Luckily, sharks aren\'t very happy swimmers."+\
-				"I wasn't sure I'd make it, but just then, Bigfoot cruised by on a pizza. 'Hop on,' Bigfoot yelled. "+\
-				"I climbed aboard as the shark narrowly missed my iPhone. Who knew there are sharks in Lake Washington?!")
+			#self.response.write("It was a rare 14° day in Seattle, so I took a dip in Lake Washington. "+
+			#	"%\s lapped against the shore, and the sun beat down on my nose. " %self.request.get()+
+			#	"As I Boo-paddled further into the lake, something brushed against my Christmas. "+
+			#	"'Oh my goodness!' I cried. In a flash, a shark's fin popped up a few feet away. "+
+			#	"I chased the shark on the nose and swam toward the shore. Luckily, sharks aren't very happy swimmers. "+
+			#	"I wasn't sure I'd make it, but just then, Bigfoot cruised by on a pizza. 'Hop on,' Bigfoot yelled. "+
+			#	"I climbed aboard as the shark narrowly missed my iPhone. Who knew there are sharks in Lake Washington?!</br></br>")
+			self.response.write("%s! Maybe I should ask her to %s. </br>" %(result5, result1)+\
+				"Afterwards we can go to the top of the %s mountain and look at the wonderful sky as we %s in the car. " %(result4, result2)+\
+				"Maybe some day we can vacation and spend all week %s. " %result3)
 		self.response.write(0)
+
+
 
 
 
@@ -128,6 +131,6 @@ app = webapp2.WSGIApplication([
     ('/print', Test),
     ('/convert', Demo),
     ('/convert1', Demo1),
-    ('/getword',Getword)
-    #('/madlib', Madlib)
+    ('/getword',Getword),
+    ('/madlib', Madlib)
 ], debug=True)

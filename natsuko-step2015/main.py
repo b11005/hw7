@@ -128,9 +128,9 @@ class Madlib(webapp2.RequestHandler):
 			#	"I chased the shark on the nose and swam toward the shore. Luckily, sharks aren't very happy swimmers. "+
 			#	"I wasn't sure I'd make it, but just then, Bigfoot cruised by on a pizza. 'Hop on,' Bigfoot yelled. "+
 			#	"I climbed aboard as the shark narrowly missed my iPhone. Who knew there are sharks in Lake Washington?!</br></br>")
-			self.response.write("%s! Maybe I should ask her to %s. </br>" %(result5, result1)+\
-				"Afterwards we can go to the top of the %s mountain and look at the wonderful sky as we %s in the car. " %(result4, result2)+\
-				"Maybe some day we can vacation and spend all week %s. </br>" %result3)
+			#self.response.write("%s! Maybe I should ask her to %s. </br>" %(result5, result1)+\
+			#	"Afterwards we can go to the top of the %s mountain and look at the wonderful sky as we %s in the car. " %(result4, result2)+\
+			#	"Maybe some day we can vacation and spend all week %s. </br>" %result3)
 			
 		self.response.write(0)
 
